@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.83.0/testing/asserts.ts";
 import * as utils from "./index.ts";
 
 Deno.test("toCamel() adds given snake case", () => {
@@ -26,15 +26,16 @@ Deno.test("keysToCamel() adds given snake case object", () => {
 });
 
 Deno.test("keysToSnake() adds given camel case object", () => {
-  const actual = utils.keysToSnake({
-    camelCase: 1,
-    camelCase2: { child: "childValue" },
-  });
-  const expected = {
-    camel_case: 1,
-    camel_case2: { child: "childValue" },
-  };
-  assertEquals(actual, expected);
+  assertEquals(
+    utils.keysToSnake({
+      camelCase: 1,
+      camelCase2: { child: "childValue" },
+    }),
+    {
+      camel_case: 1,
+      camel_case2: { child: "childValue" },
+    }
+  );
 });
 
 Deno.test("fib() adds given number", () => {

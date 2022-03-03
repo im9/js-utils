@@ -1,4 +1,5 @@
-JS Utils
+# JS Utils
+
 ====
 
 Javascript Utils Functions.
@@ -7,4 +8,10 @@ Javascript Utils Functions.
 
 ```
 $ deno test
+```
+
+## lint
+
+```
+$ deno lint --unstable --rules
 ```
