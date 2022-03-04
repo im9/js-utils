@@ -13,6 +13,12 @@ Deno.test("toSnake() adds given camel case", () => {
   assertEquals(actual, expected);
 });
 
+Deno.test("toKebab() adds given keba case", () => {
+  const actual = utils.toKebab("snakeCase");
+  const expected = "snake-case";
+  assertEquals(actual, expected);
+});
+
 Deno.test("keysToCamel() adds given snake case object", () => {
   const actual = utils.keysToCamel({
     camel_case: 1,
@@ -25,17 +31,48 @@ Deno.test("keysToCamel() adds given snake case object", () => {
   assertEquals(actual, expected);
 });
 
-Deno.test("keysToSnake() adds given camel case object", () => {
-  assertEquals(
-    utils.keysToSnake({
-      camelCase: 1,
-      camelCase2: { child: "childValue" },
-    }),
-    {
-      camel_case: 1,
-      camel_case2: { child: "childValue" },
-    }
-  );
+Deno.test("cleanEmptyObj()", () => {
+  const actual = utils.cleanEmptyObj({
+    prop: "",
+    prop2: "test",
+    prop3: null,
+  });
+  const expected = {
+    prop2: "test",
+  };
+  assertEquals(actual, expected);
+});
+
+Deno.test("toggle()", () => {
+  const actual = utils.toggle([1, 2, 3], 2);
+  const expected = [1, 3];
+  assertEquals(actual, expected);
+});
+
+Deno.test("highestValFromObj()", () => {
+  const actual = utils.highestValFromObj([
+    { label: "test1", value: 1 },
+    { label: "test2", value: 200 },
+    { label: "test3", value: 3 },
+  ]);
+  const expected = { label: "test2", value: 200 };
+  assertEquals(actual, expected);
+});
+
+Deno.test("lowestValFromObj()", () => {
+  const actual = utils.lowestValFromObj([
+    { label: "test1", value: 0.1 },
+    { label: "test2", value: 200 },
+    { label: "test3", value: 3 },
+  ]);
+  const expected = { label: "test1", value: 0.1 };
+  assertEquals(actual, expected);
+});
+
+Deno.test("zenkaku()", () => {
+  const actual = utils.zenkaku("zenkaku123");
+  const expected = "ｚｅｎｋａｋｕ１２３";
+  assertEquals(actual, expected);
 });
 
 Deno.test("fib() adds given number", () => {

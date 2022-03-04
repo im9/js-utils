@@ -23,44 +23,64 @@ export function toSnake(s: string) {
   return s.replace(/([A-Z])/g, "_$1").toLowerCase();
 }
 
-// deno-lint-ignore no-explicit-any
-export function keysToCamel(o: any) {
+export const toKebab = (s: string) => {
+  return s.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+};
+
+export const keysToCamel = (o: StringKeyObject): StringKeyObject => {
   if (isObject(o)) {
     const n: StringKeyObject = {};
-
-    Object.keys(o)?.forEach((k) => {
-      n[toCamel(k)] = keysToCamel(o[k]);
-    });
-
+    Object.keys(o).forEach((k) => (n[toCamel(k)] = keysToCamel(o[k])));
     return n;
-  } else if (isArray(o)) {
-    // deno-lint-ignore no-explicit-any
-    return o.map((i: any) => {
-      return keysToCamel(i);
-    });
+  } else if (Array.isArray(o)) {
+    return o.map((i) => keysToCamel(i));
   }
+  return o;
+};
 
+export function keysToSnake(o: StringKeyObject): StringKeyObject {
+  if (isObject(o)) {
+    const n: StringKeyObject = {};
+    Object.keys(o).forEach((k) => (n[toSnake(k)] = keysToSnake(o[k])));
+    return n;
+  } else if (Array.isArray(o)) {
+    return o.map((i) => keysToSnake(i));
+  }
   return o;
 }
 
-export function keysToSnake(obj: StringKeyObject) {
-  if (typeof obj !== "object") return obj;
+export const cleanEmptyObj = (o: StringKeyObject): StringKeyObject => {
+  return Object.entries(o).reduce((a: StringKeyObject, [k, v]) => {
+    return v === "" || v === null || v === undefined ? a : ((a[k] = v), a);
+  }, {});
+};
 
-  for (const oldName in obj) {
-    const newName = toSnake(oldName);
-    if (newName !== oldName) {
-      if (obj?.hasOwnProperty(oldName)) {
-        obj[newName] = obj[oldName];
-        delete obj[oldName];
-      }
-    }
-    // Recursion
-    if (typeof obj[newName] === "object") {
-      obj[newName] = keysToSnake(obj[newName]);
-    }
-  }
-  return obj;
-}
+// deno-lint-ignore no-explicit-any
+export const toggle = (arr: any, value: any) => {
+  console.log(arr?.includes(value), "arr?.includes(value)");
+  return arr?.includes(value)
+    ? // deno-lint-ignore no-explicit-any
+      arr.filter((v: any) => v !== value)
+    : arr.concat(value);
+};
+
+export const highestValFromObj = (obj: StringKeyObject, key = "value") => {
+  return Object.values(obj).reduce((prev, current) =>
+    prev[key] > current[key] ? prev : current
+  );
+};
+
+export const lowestValFromObj = (obj: StringKeyObject, key = "value") => {
+  return Object.values(obj).reduce((prev, current) =>
+    prev[key] < current[key] ? prev : current
+  );
+};
+
+export const zenkaku = (value: string | number) => {
+  return String(value).replace(/[A-Za-z0-9]/g, (s) => {
+    return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+  });
+};
 
 /**
  * Get Fibonacci numbers

@@ -1,8 +1,6 @@
 # JS Utils
 
-====
-
-Javascript Utils Functions.
+Javascript Util Functions.
 
 ## Unit Test
 
@@ -13,5 +11,5 @@ $ deno test
 ## lint
 
 ```
-$ deno lint --unstable --rules
+$ deno lint --unstable
 ```
