@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.83.0/testing/asserts.ts";
+import { assertEquals } from "../deps.ts";
 import * as utils from "./index.ts";
 
 Deno.test("toCamel() adds given snake case", () => {

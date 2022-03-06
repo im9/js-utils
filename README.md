@@ -11,5 +11,5 @@ $ deno test
 ## lint
 
 ```
-$ deno lint --unstable
+$ deno lint
 ```

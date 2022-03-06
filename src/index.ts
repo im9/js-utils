@@ -57,7 +57,6 @@ export const cleanEmptyObj = (o: StringKeyObject): StringKeyObject => {
 
 // deno-lint-ignore no-explicit-any
 export const toggle = (arr: any, value: any) => {
-  console.log(arr?.includes(value), "arr?.includes(value)");
   return arr?.includes(value)
     ? // deno-lint-ignore no-explicit-any
       arr.filter((v: any) => v !== value)
@@ -65,15 +64,15 @@ export const toggle = (arr: any, value: any) => {
 };
 
 export const highestValFromObj = (obj: StringKeyObject, key = "value") => {
-  return Object.values(obj).reduce((prev, current) =>
-    prev[key] > current[key] ? prev : current
-  );
+  return Object.values(obj).reduce((prev, current) => {
+    return prev[key] > current[key] ? prev : current;
+  });
 };
 
 export const lowestValFromObj = (obj: StringKeyObject, key = "value") => {
-  return Object.values(obj).reduce((prev, current) =>
-    prev[key] < current[key] ? prev : current
-  );
+  return Object.values(obj).reduce((prev, current) => {
+    return prev[key] < current[key] ? prev : current;
+  });
 };
 
 export const zenkaku = (value: string | number) => {
