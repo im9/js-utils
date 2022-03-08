@@ -75,6 +75,23 @@ Deno.test("zenkaku()", () => {
   assertEquals(actual, expected);
 });
 
+Deno.test("debounce()", async () => {
+  const delayMs = 100;
+  let x = 0;
+
+  const adder = () => {
+    x++;
+  };
+
+  const debouncedAdder = utils.debounce(adder, delayMs);
+
+  debouncedAdder();
+
+  assertEquals(x, 0);
+  await utils.sleep(1);
+  assertEquals(x, 1);
+});
+
 Deno.test("fib() adds given number", () => {
   let actual = utils.fib(1);
   let expected = 1;

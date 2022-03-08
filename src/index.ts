@@ -3,6 +3,10 @@ interface StringKeyObject {
   [key: string]: any;
 }
 
+export function sleep(second: number) {
+  return new Promise((resolve) => setTimeout(resolve, second * 1000));
+}
+
 export function isArray(a: []) {
   return Array.isArray(a);
 }
@@ -23,11 +27,11 @@ export function toSnake(s: string) {
   return s.replace(/([A-Z])/g, "_$1").toLowerCase();
 }
 
-export const toKebab = (s: string) => {
+export function toKebab(s: string) {
   return s.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-};
+}
 
-export const keysToCamel = (o: StringKeyObject): StringKeyObject => {
+export function keysToCamel(o: StringKeyObject): StringKeyObject {
   if (isObject(o)) {
     const n: StringKeyObject = {};
     Object.keys(o).forEach((k) => (n[toCamel(k)] = keysToCamel(o[k])));
@@ -36,7 +40,7 @@ export const keysToCamel = (o: StringKeyObject): StringKeyObject => {
     return o.map((i) => keysToCamel(i));
   }
   return o;
-};
+}
 
 export function keysToSnake(o: StringKeyObject): StringKeyObject {
   if (isObject(o)) {
@@ -49,37 +53,58 @@ export function keysToSnake(o: StringKeyObject): StringKeyObject {
   return o;
 }
 
-export const cleanEmptyObj = (o: StringKeyObject): StringKeyObject => {
+export function cleanEmptyObj(o: StringKeyObject): StringKeyObject {
   return Object.entries(o).reduce((a: StringKeyObject, [k, v]) => {
     return v === "" || v === null || v === undefined ? a : ((a[k] = v), a);
   }, {});
-};
+}
 
 // deno-lint-ignore no-explicit-any
-export const toggle = (arr: any, value: any) => {
+export function toggle(arr: any, value: any) {
   return arr?.includes(value)
     ? // deno-lint-ignore no-explicit-any
       arr.filter((v: any) => v !== value)
     : arr.concat(value);
-};
+}
 
-export const highestValFromObj = (obj: StringKeyObject, key = "value") => {
+export function highestValFromObj(obj: StringKeyObject, key = "value") {
   return Object.values(obj).reduce((prev, current) => {
     return prev[key] > current[key] ? prev : current;
   });
-};
+}
 
-export const lowestValFromObj = (obj: StringKeyObject, key = "value") => {
+export function lowestValFromObj(obj: StringKeyObject, key = "value") {
   return Object.values(obj).reduce((prev, current) => {
     return prev[key] < current[key] ? prev : current;
   });
-};
+}
 
-export const zenkaku = (value: string | number) => {
+export function zenkaku(value: string | number) {
   return String(value).replace(/[A-Za-z0-9]/g, (s) => {
     return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
   });
-};
+}
+
+type Handler = <T>(t: T) => void;
+
+export function debounce(callback: Handler, ms: number) {
+  let timer: number;
+  return function <T>(...t: T[]) {
+    clearTimeout(timer);
+    timer = setTimeout(() => callback(t), ms);
+  };
+}
+
+export function throttle(callback: Handler, ms: number) {
+  let timer: number;
+  return function <T>(...t: T[]) {
+    if (timer) return;
+    timer = setTimeout(() => {
+      callback(t);
+      timer = 0;
+    }, ms);
+  };
+}
 
 /**
  * Get Fibonacci numbers
