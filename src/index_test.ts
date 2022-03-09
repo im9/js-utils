@@ -92,6 +92,24 @@ Deno.test("debounce()", async () => {
   assertEquals(x, 1);
 });
 
+Deno.test("throttle()", async () => {
+  const delayMs = 100;
+  let x = 0;
+
+  const adder = () => {
+    x++;
+  };
+
+  const throttleAdder = utils.throttle(adder, delayMs);
+
+  throttleAdder();
+  throttleAdder();
+  throttleAdder();
+  assertEquals(x, 0);
+  await utils.sleep(1);
+  assertEquals(x, 1);
+});
+
 Deno.test("fib() adds given number", () => {
   let actual = utils.fib(1);
   let expected = 1;
