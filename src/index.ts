@@ -106,6 +106,27 @@ export function throttle(callback: Handler, ms: number) {
   };
 }
 
+export const fileToBlob = async (file: File) => {
+  return new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
+};
+
+export const blobToBase64 = async (blob: Blob) => {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+};
+
+export const fileToBase64 = (file: File) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 /**
  * Get Fibonacci numbers
  * Fn = Fn-1 + Fn-2
