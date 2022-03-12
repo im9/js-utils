@@ -106,32 +106,45 @@ export function throttle(callback: Handler, ms: number) {
   };
 }
 
-export const fileToBlob = async (file: File) => {
+export async function fileToBlob(file: File) {
   return new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
-};
+}
 
-export const blobToBase64 = async (blob: Blob) => {
+export async function blobToBase64(blob: Blob) {
   return new Promise((resolve, _) => {
     const reader = new FileReader();
     reader.onloadend = () => resolve(reader.result);
     reader.readAsDataURL(blob);
   });
-};
+}
 
-export const fileToBase64 = (file: File) => {
+export async function fileToBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-};
+}
+
+/**
+ * Generate random string/characters
+ * @param length number
+ * @returns string
+ */
+export function generateUid(length: number) {
+  const arr = new Uint8Array(length * 2);
+  const typedArray = window.crypto.getRandomValues(arr);
+  const uid = Array.from(typedArray).map((b) => String.fromCharCode(b)).join("");
+  const encoded = window.btoa(uid);
+  return encoded.replace(/[+/]/g, "").substring(0, length);
+}
 
 /**
  * Get Fibonacci numbers
  * Fn = Fn-1 + Fn-2
  * @param v number
- * @returns
+ * @returns number
  */
 export function fib(v: number) {
   let a = 1;

@@ -1,4 +1,4 @@
-import { assertEquals } from "../deps.ts";
+import { assertEquals, assertMatch } from "../deps.ts";
 import * as utils from "./index.ts";
 
 Deno.test("toCamel() adds given snake case", () => {
@@ -108,6 +108,13 @@ Deno.test("throttle()", async () => {
   assertEquals(x, 0);
   await utils.sleep(1);
   assertEquals(x, 1);
+});
+
+Deno.test("generateUID()", async () => {
+  const actual = utils.generateUid(16);
+  const expected = /^([a-zA-Z0-9]{16})$/;
+  console.log(actual, "uid");
+  assertMatch(actual, expected);
 });
 
 Deno.test("fib() adds given number", () => {
