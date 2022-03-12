@@ -15,7 +15,13 @@ jobs:
           deno fmt --check
       - name: Run lint
         run: |
-          deno lint --unstable
+          deno lint
       - name: Run tests
         run: |
           deno test -A
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

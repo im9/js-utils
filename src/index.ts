@@ -136,7 +136,7 @@ export function generateUid(length: number) {
   const arr = new Uint8Array(length * 2);
   const typedArray = window.crypto.getRandomValues(arr);
   const uid = Array.from(typedArray).map((b) => String.fromCharCode(b)).join("");
-  const encoded = window.btoa(uid);
+  const encoded = self.btoa(uid);
   return encoded.replace(/[+/]/g, "").substring(0, length);
 }
 
