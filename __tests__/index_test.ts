@@ -1,9 +1,22 @@
 import { assertEquals, assertMatch } from "../deps.ts";
-import * as utils from "./index.ts";
+import * as utils from "../src/index.ts";
+import * as mocks from "../__tests__/mock.ts";
 
 Deno.test("range()", () => {
   const actual = utils.range(3, 10);
   const expected = [3, 4, 5, 6, 7, 8, 9, 10];
+  assertEquals(actual, expected);
+});
+
+Deno.test("times()", () => {
+  const actual = utils.times(3, (_: any, i: number) => {
+    return { id: i + 1 };
+  });
+  const expected = [
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+  ];
   assertEquals(actual, expected);
 });
 
@@ -46,6 +59,16 @@ Deno.test("cleanEmptyObj()", () => {
   const expected = {
     prop2: "test",
   };
+  assertEquals(actual, expected);
+});
+
+Deno.test("convertArrayToObject()", () => {
+  const actual = utils.convertArrayToObject(mocks.fooList(10));
+  const expected = [...Array(10).keys()].reduce((a, v) => {
+    const id = v + 1;
+    const data = { id, name: `user${id}` };
+    return { ...a, [id]: data }
+  }, {})
   assertEquals(actual, expected);
 });
 

@@ -3,12 +3,18 @@ interface StringKeyObject {
   [key: string]: any;
 }
 
+declare type Callback = (item: any, index: number) => void;
+
 export function sleep(second: number) {
   return new Promise((resolve) => setTimeout(resolve, second * 1000));
 }
 
 export function range(start: number, end: number): number[] {
   return [...Array(end + 1).keys()].slice(start);
+}
+
+export function times(n: number, cb: Callback) {
+  return [...Array(n)].map((item, i) => cb(item, i));
 }
 
 export function isArray(a: []) {
@@ -55,6 +61,21 @@ export function keysToSnake(o: StringKeyObject): StringKeyObject {
     return o.map((i) => keysToSnake(i));
   }
   return o;
+}
+
+/**
+ * Convert Array To Object Key By ID
+ * @param array Array
+ * @returns Object
+ */
+export function convertArrayToObject(array: [], key = "id"): StringKeyObject {
+  const initialValue = {};
+  return array.reduce((obj, item) => {
+    return {
+      ...obj,
+      [item[key]]: item,
+    };
+  }, initialValue);
 }
 
 export function cleanEmptyObj(o: StringKeyObject): StringKeyObject {
