@@ -7,6 +7,10 @@ export function sleep(second: number) {
   return new Promise((resolve) => setTimeout(resolve, second * 1000));
 }
 
+export function range(start: number, end: number): number[] {
+  return [...Array(end + 1).keys()].slice(start);
+}
+
 export function isArray(a: []) {
   return Array.isArray(a);
 }
@@ -155,4 +159,11 @@ export function fib(v: number) {
     b = c;
   }
   return b;
+}
+
+const memo: StringKeyObject = { 1: 1, 2: 1 };
+export function fib2(v: number) {
+  if (memo[v]) return memo[v];
+  memo[v] = fib2(v - 2) + fib2(v - 1);
+  return memo[v];
 }

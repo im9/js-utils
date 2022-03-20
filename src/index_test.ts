@@ -1,6 +1,12 @@
 import { assertEquals, assertMatch } from "../deps.ts";
 import * as utils from "./index.ts";
 
+Deno.test("range()", () => {
+  const actual = utils.range(3, 10);
+  const expected = [3, 4, 5, 6, 7, 8, 9, 10];
+  assertEquals(actual, expected);
+});
+
 Deno.test("toCamel() adds given snake case", () => {
   const actual = utils.toCamel("camel_case");
   const expected = "camelCase";
@@ -127,6 +133,20 @@ Deno.test("fib() adds given number", () => {
   assertEquals(actual, expected);
 
   actual = utils.fib(77);
+  expected = 5527939700884757;
+  assertEquals(actual, expected);
+});
+
+Deno.test("fib2() adds given number", () => {
+  let actual = utils.fib2(1);
+  let expected = 1;
+  assertEquals(actual, expected);
+
+  actual = utils.fib2(8);
+  expected = 21;
+  assertEquals(actual, expected);
+
+  actual = utils.fib2(77);
   expected = 5527939700884757;
   assertEquals(actual, expected);
 });
