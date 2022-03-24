@@ -26,6 +26,15 @@ export function isObject(o: any) {
   return o === Object(o) && !isArray(o) && typeof o !== "function";
 }
 
+/**
+ * Remove duplicate from an Array
+ * @param arr
+ * @returns arr
+ */
+export function removeDuplicates(arr: Array<any>) {
+  return [...new Set(arr)];
+}
+
 export function toCamel(s: string) {
   // deno-lint-ignore no-explicit-any
   return s.replace(/([-_][a-z])/gi, ($1: any) => {

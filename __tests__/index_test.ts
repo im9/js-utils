@@ -20,6 +20,12 @@ Deno.test("times()", () => {
   assertEquals(actual, expected);
 });
 
+Deno.test("removeDuplicates()", () => {
+  const actual = utils.removeDuplicates([1, 2, 3, 3, 10, 10, "test", "test"]);
+  const expected = [1, 2, 3, 10, "test"];
+  assertEquals(actual, expected);
+});
+
 Deno.test("toCamel() adds given snake case", () => {
   const actual = utils.toCamel("camel_case");
   const expected = "camelCase";
