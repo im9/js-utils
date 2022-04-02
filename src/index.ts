@@ -197,3 +197,15 @@ export function fib2(v: number) {
   memo[v] = fib2(v - 2) + fib2(v - 1);
   return memo[v];
 }
+
+/**
+ * Check Number prime
+ * @param v number
+ * @returns boolean
+ */
+export function isPrimeNumber(n: number): boolean {
+  for (let i = 2; i < n; i++) {
+    if (n % i === 0) return false;
+  }
+  return n > 1;
+}

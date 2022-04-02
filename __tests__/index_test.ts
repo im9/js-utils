@@ -179,3 +179,17 @@ Deno.test("fib2() adds given number", () => {
   expected = 5527939700884757;
   assertEquals(actual, expected);
 });
+
+Deno.test("isPrimeNumber()", () => {
+  let actual = utils.isPrimeNumber(1);
+  let expected = false;
+  assertEquals(actual, expected);
+
+  actual = utils.isPrimeNumber(277);
+  expected = true;
+  assertEquals(actual, expected);
+
+  actual = utils.isPrimeNumber(997);
+  expected = true;
+  assertEquals(actual, expected);
+})
